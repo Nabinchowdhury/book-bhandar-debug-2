@@ -59,17 +59,20 @@ const getCartItems = () => {
 };
 
 const switchTab = (id) => {
+
   if (id === "container") {
     document.getElementById("container").style.display = "grid";
     document.getElementById("wishlist").style.display = "none";
     document.getElementById("cart").style.display = "none";
   } else if (id === "wishlist") {
+    document.getElementById(id).textContent = ""
     document.getElementById("wishlist").style.display = "grid";
     document.getElementById("container").style.display = "none";
     document.getElementById("cart").style.display = "none";
 
     displayWishlist();
   } else {
+    document.getElementById(id).textContent = ""
     document.getElementById("cart").style.display = "grid";
     document.getElementById("container").style.display = "none";
     document.getElementById("wishlist").style.display = "none";
@@ -88,6 +91,7 @@ const showBooks = (books) => {
 };
 
 const createCard = (book) => {
+  // console.log(book)
   const div = document.createElement("div");
   div.classList.add("card");
 
@@ -96,18 +100,18 @@ const createCard = (book) => {
   div.innerHTML = `
   <div class="image-container">
     <img
-      src="${book.Image}"
+      src="${book.image}"
       alt=""
     />
     <div class="button-container">
       <button onclick="addToWishlist('${book.id}')" class="button"><i class="fa-solid fa-heart"></i></button>
-      <button onclick="AddToCart" class="button">Add To Cart</button>
+      <button onclick="addToCart('${book.id}')" class="button">Add To Cart</button>
     </div>
   </div>
   <div class="info-container">
     <h1>${book.name}</h1>
     <p>
-      ${overview}
+      ${overview.length > 50 ? overview.substring(0, 55) + "..." : overview}
     </p>
   </div>
 
@@ -140,9 +144,9 @@ const displayCart = () => {
 
 const displayWishlist = () => {
   const wishlist = getWishlistItems();
-  console.log(wishlist);
+  // console.log(wishlist);
 
-  bookList.forEach((book) => {
+  wishlist.forEach((book) => {
     const div = createCard(book);
     document.getElementById("wishlist").appendChild(div);
   });
